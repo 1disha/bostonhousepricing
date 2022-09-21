@@ -23,6 +23,15 @@ def predict_api():
     print(output[0])
     return jsonify(output[0])
 
+@app.route('/predict',methods=['POST']) ## New method predict for web form insted of api
+def predict():
+    data=[float(x) for x  in request.form.values()] # Convert all the values to float (as in dataset)
+    final_input=scalar.transform(np.array(data).reshape(1,-1))
+    print(final_input)
+    output=regmodel.predict(final_input)[0] # Regression model for prediction, output will be two dimensional hence pick the 1st dimension
+    return render_template("home.html",prediction_text="House price predicted is {}".format(output))
+
+
 ## To run
 if __name__=="__main__":
     app.run(debug=True)
