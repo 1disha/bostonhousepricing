@@ -6,6 +6,7 @@ import pandas as pd
 app=Flask(__name__) # Starting point of flask
 ## Load the model
 regmodel=pickle.load(open('regmodel.pkl','rb')) # open the pickle file and load it
+scalar=pickle.load(open('scaling.pkl','rb'))
 
 @app.route('/') # First root or home page
 def home():
@@ -16,12 +17,12 @@ def home():
 def predict_api():   
     data=request.json['data'] # whenever you hit predict api with information you need to capture it using request.json and stores in data
     print(data) # It is in json format
-    print(np.array(list(data.values())).rehape(1,-1)) # Get the values and convert into list for single values and transform the data into single line
-    new_data=np.scalar.transform(np.array(list(data.values())).reshape(1,-1))
+    print(np.array(list(data.values())).reshape(1,-1)) # Get the values and convert into list for single values and transform the data into single line
+    new_data=scalar.transform(np.array(list(data.values())).reshape(1,-1))
     output=regmodel.predict(new_data)
     print(output[0])
     return jsonify(output[0])
 
-    ## To run
-    if __name__=="__main__":
-        app.run(debug=True)
+## To run
+if __name__=="__main__":
+    app.run(debug=True)
