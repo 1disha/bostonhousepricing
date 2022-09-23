@@ -17,7 +17,7 @@ jobs:
 
 # Important part 
         - name: Build, Push and Release a Docker container to Heroku 
-          uses: gonult/heroku-docker-deploy@v1.3.3
+          uses: gonuit/heroku-docker-deploy@v1.3.3
           with: 
             email: ${{ secrets.HEROKU_EMAIL }}
 
